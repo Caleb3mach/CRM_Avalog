@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useEffect as useReactEffect } from 'react'
+import { motion } from 'framer-motion'
 import { X, MessageCircle, Phone, Clock, CheckCircle2, Trash2, ExternalLink, Star } from 'lucide-react'
 import { type Lead, type StatusFunil, type Canal, COLUNAS_FUNIL, SEGMENTO_LABELS, SEGMENTO_CORES } from '@/lib/types'
 import { formatarDistancia, formatarTelefone, whatsappLink, canalLabel } from '@/lib/utils'
@@ -136,8 +137,20 @@ export default function LeadModal({ lead, onClose, onUpdate, onDelete }: LeadMod
   const segCor = lead.segmento ? SEGMENTO_CORES[lead.segmento] : 'seg-outro'
 
   return (
-    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="modal-content">
+    <motion.div 
+      className="modal-overlay" 
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div 
+        className="modal-content"
+        initial={{ y: "100%" }}
+        animate={{ y: 0 }}
+        exit={{ y: "100%" }}
+        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+      >
         {/* Header */}
         <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
           <div style={{ flex: 1 }}>
@@ -341,7 +354,7 @@ export default function LeadModal({ lead, onClose, onUpdate, onDelete }: LeadMod
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Toast */}
       {toast && (
@@ -349,6 +362,6 @@ export default function LeadModal({ lead, onClose, onUpdate, onDelete }: LeadMod
           <div className="toast success">{toast}</div>
         </div>
       )}
-    </div>
+    </motion.div>
   )
 }

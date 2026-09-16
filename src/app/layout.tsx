@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Fraunces } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-fraunces' })
 
 export const metadata: Metadata = {
   title: 'CRM — Machado Soluções Digitais',
-  description: 'CRM de campanha de prospecção para pequenos negócios locais',
+  description: 'CRM premium para vendas de SaaS e sites de alto ticket',
 }
 
 export default function RootLayout({
@@ -28,19 +29,19 @@ export default function RootLayout({
                   if (t === 'dark' || t === 'light') {
                     document.documentElement.setAttribute('data-theme', t);
                   } else {
-                    document.documentElement.setAttribute('data-theme', 'light');
+                    document.documentElement.setAttribute('data-theme', 'dark');
                   }
                 } catch(e) {
-                  document.documentElement.setAttribute('data-theme', 'light');
+                  document.documentElement.setAttribute('data-theme', 'dark');
                 }
               })();
             `,
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${fraunces.variable} font-sans bg-bg-base text-text-primary`}>
         <Navbar />
-        <main style={{ paddingTop: '60px' }}>
+        <main className="pt-[60px] pb-[70px] md:pb-0 min-h-screen">
           {children}
         </main>
         {/* Client-side trigger: auto-followup ao abrir o app */}

@@ -12,6 +12,7 @@ import {
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { Search, SlidersHorizontal, X } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { type Lead, type StatusFunil, type Segmento, COLUNAS_FUNIL, SEGMENTO_LABELS } from '@/lib/types'
 import KanbanColumn from './KanbanColumn'
 import LeadModal from './LeadModal'
@@ -273,17 +274,37 @@ export default function KanbanBoard({ initialLeads }: KanbanBoardProps) {
         onDragEnd={handleDragEnd}
         onDragCancel={() => setActiveId(null)}
       >
-        <div className="kanban-board">
+        <motion.div 
+          className="kanban-board"
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: { staggerChildren: 0.1 }
+            }
+          }}
+          initial="hidden"
+          animate="show"
+        >
           {COLUNAS_FUNIL.map((col) => (
-            <KanbanColumn
+            <motion.div
               key={col.id}
-              status={col.id}
-              leads={getLeadsByStatus(col.id)}
-              onLeadClick={setSelectedLead}
-              onUpdate={handleLeadUpdate}
-            />
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 200, damping: 20 } }
+              }}
+              style={{ height: '100%', flex: '0 0 auto' }}
+            >
+              <KanbanColumn
+                title={col.label}
+                status={col.id}
+                leads={getLeadsByStatus(col.id)}
+                onLeadClick={setSelectedLead}
+                onUpdate={handleLeadUpdate}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <DragOverlay>
           {activeLead && (
@@ -294,14 +315,16 @@ export default function KanbanBoard({ initialLeads }: KanbanBoardProps) {
         </DragOverlay>
       </DndContext>
 
-      {selectedLead && (
-        <LeadModal
-          lead={selectedLead}
-          onClose={() => setSelectedLead(null)}
-          onUpdate={handleLeadUpdate}
-          onDelete={handleLeadDelete}
-        />
-      )}
+      <AnimatePresence>
+        {selectedLead && (
+          <LeadModal
+            lead={selectedLead}
+            onClose={() => setSelectedLead(null)}
+            onUpdate={handleLeadUpdate}
+            onDelete={handleLeadDelete}
+          />
+        )}
+      </AnimatePresence>
     </>
   )
 }

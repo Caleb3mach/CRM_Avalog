@@ -61,10 +61,10 @@ export default function CampanhasPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {campanhas.map((camp) => (
             <div key={camp.id} className="glass-card" style={{ padding: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+              <div className="flex flex-col md:flex-row justify-between items-start mb-4 gap-2">
                 <div>
-                  <h3 style={{ margin: '0 0 4px', fontSize: '16px', fontWeight: 600 }}>{camp.nome}</h3>
-                  <div style={{ fontSize: '12px', color: 'var(--text-muted)', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <h3 className="m-0 text-[16px] font-semibold">{camp.nome}</h3>
+                  <div className="text-[12px] text-[var(--text-muted)] flex flex-wrap gap-2 items-center mt-1">
                     <span style={{ 
                       padding: '2px 8px', 
                       borderRadius: '4px', 
@@ -74,16 +74,16 @@ export default function CampanhasPage() {
                     }}>
                       {camp.status.toUpperCase()}
                     </span>
-                    <span>•</span>
+                    <span className="hidden sm:inline">•</span>
                     <span>Script: {camp.scripts?.nome || 'Desconhecido'}</span>
-                    <span>•</span>
+                    <span className="hidden sm:inline">•</span>
                     <span>{new Date(camp.criado_em).toLocaleDateString('pt-BR')}</span>
                   </div>
                 </div>
               </div>
 
               {/* Progress Bar & Stats */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div style={{ background: 'var(--bg-elevated)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', fontSize: '12px', marginBottom: '4px' }}>
                     <Clock size={14} /> Fila / Pendente

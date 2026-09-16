@@ -203,7 +203,7 @@ export default async function DashboardPage() {
       )}
 
       {/* ===== METRIC CARDS ===== */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="metric-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
@@ -270,7 +270,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* ===== FUNNEL PROGRESS + ESTÉTICA AUTOMOTIVA ===== */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
         {/* Funnel Progress */}
         <div className="glass-card" style={{ padding: '20px' }}>
           <FunnelProgressBar data={funnelData} total={total} />
@@ -325,7 +325,7 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
         {/* Follow-up pendentes lista */}
         {followUpPendentes.length > 0 && (
           <div className="glass-card" style={{ padding: '20px' }}>
@@ -376,7 +376,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* ===== TAXA POR CANAL + DISTRIBUIÇÃO ===== */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
         {/* Taxa por canal */}
         <div className="glass-card" style={{ padding: '20px' }}>
           <h3 style={{ margin: '0 0 16px', fontSize: '15px', fontWeight: 600 }}>

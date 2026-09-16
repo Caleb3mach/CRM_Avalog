@@ -13,11 +13,10 @@ import {
 import ThemeToggle from './ThemeToggle'
 
 const navItems = [
-  { href: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/', label: 'Painel', icon: LayoutDashboard },
   { href: '/kanban', label: 'Kanban', icon: Kanban },
   { href: '/leads', label: 'Leads', icon: Users },
-  { href: '/scripts', label: 'Scripts', icon: FileText },
-  { href: '/campanhas', label: 'Campanhas', icon: Zap }, // usando zap ou Send
+  { href: '/campanhas', label: 'Envios', icon: Zap },
   { href: '/importar', label: 'Importar', icon: Upload },
 ]
 
@@ -25,78 +24,89 @@ export default function Navbar() {
   const pathname = usePathname()
 
   return (
-    <nav
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '60px',
-        background: 'var(--bg-navbar)',
-        borderBottom: '1px solid var(--border)',
-        backdropFilter: 'blur(12px)',
-        zIndex: 50,
-        display: 'flex',
-        alignItems: 'center',
-        paddingInline: '20px',
-        gap: '8px',
-      }}
-    >
-      {/* Logo */}
-      <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginRight: '24px', textDecoration: 'none' }}>
-        <div
-          style={{
-            width: '28px',
-            height: '28px',
-            borderRadius: '8px',
-            background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Zap size={14} color="white" />
-        </div>
-        <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--text-primary)' }}>
-          Machado<span className="gradient-text"> CRM</span>
-        </span>
-      </Link>
-
-      {/* Nav links */}
-      {navItems.map(({ href, label, icon: Icon }) => {
-        const isActive = pathname === href || (href !== '/' && pathname.startsWith(href))
-        return (
-          <Link
-            key={href}
-            href={href}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 14px',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontSize: '13px',
-              fontWeight: '500',
-              transition: 'all 0.18s ease',
-              background: isActive
-                ? 'rgba(59, 130, 246, 0.15)'
-                : 'transparent',
-              color: isActive ? 'var(--accent-blue)' : 'var(--text-secondary)',
-              border: isActive ? '1px solid rgba(59, 130, 246, 0.3)' : '1px solid transparent',
-            }}
+    <>
+      {/* Top Navbar (Desktop) & Top Header (Mobile) */}
+      <nav
+        className="fixed top-0 left-0 right-0 h-[60px] z-50 flex items-center px-4 md:px-6"
+        style={{
+          background: 'var(--bg-navbar)',
+          borderBottom: '1px solid var(--border)',
+          backdropFilter: 'blur(12px)',
+        }}
+      >
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 mr-6 text-none">
+          <div
+            className="w-7 h-7 rounded-lg flex items-center justify-center"
+            style={{ background: 'var(--accent-blue)' }}
           >
-            <Icon size={14} />
-            {label}
-          </Link>
-        )
-      })}
+            <Zap size={14} color="var(--bg-base)" />
+          </div>
+          <span className="text-[14px] font-bold text-[var(--text-primary)]">
+            Machado<span className="text-[var(--accent-blue)]"> CRM</span>
+          </span>
+        </Link>
 
-      {/* Spacer */}
-      <div style={{ flex: 1 }} />
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex items-center gap-2">
+          {navItems.map(({ href, label, icon: Icon }) => {
+            const isActive = pathname === href || (href !== '/' && pathname.startsWith(href))
+            return (
+              <Link
+                key={href}
+                href={href}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-all"
+                style={{
+                  background: isActive ? 'var(--chart-bar-inactive)' : 'transparent',
+                  color: isActive ? 'var(--accent-blue)' : 'var(--text-secondary)',
+                }}
+              >
+                <Icon size={14} />
+                {label}
+              </Link>
+            )
+          })}
+        </div>
 
-      {/* Theme Toggle */}
-      <ThemeToggle />
-    </nav>
+        {/* Spacer */}
+        <div className="flex-1" />
+
+        {/* Theme Toggle */}
+        <ThemeToggle />
+      </nav>
+
+      {/* Bottom Navigation Bar (Mobile) */}
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 h-[64px] z-50 flex items-center justify-around px-2"
+        style={{
+          background: 'var(--bg-navbar)',
+          borderTop: '1px solid var(--border)',
+          backdropFilter: 'blur(12px)',
+          paddingBottom: 'env(safe-area-inset-bottom)'
+        }}
+      >
+        {navItems.map(({ href, label, icon: Icon }) => {
+          const isActive = pathname === href || (href !== '/' && pathname.startsWith(href))
+          return (
+            <Link
+              key={href}
+              href={href}
+              className="flex flex-col items-center gap-1 p-2 min-w-[60px]"
+              style={{
+                color: isActive ? 'var(--accent-blue)' : 'var(--text-secondary)',
+              }}
+            >
+              <div 
+                className="p-1 rounded-full transition-all"
+                style={{ background: isActive ? 'var(--chart-bar-inactive)' : 'transparent' }}
+              >
+                <Icon size={18} />
+              </div>
+              <span className="text-[10px] font-medium">{label}</span>
+            </Link>
+          )
+        })}
+      </nav>
+    </>
   )
 }
