@@ -296,7 +296,6 @@ export default function KanbanBoard({ initialLeads }: KanbanBoardProps) {
               style={{ height: '100%', flex: '0 0 auto' }}
             >
               <KanbanColumn
-                title={col.label}
                 status={col.id}
                 leads={getLeadsByStatus(col.id)}
                 onLeadClick={setSelectedLead}
